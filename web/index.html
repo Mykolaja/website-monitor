@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Website Monitor</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .site { border: 1px solid #ddd; padding: 15px; margin: 10px; border-radius: 5px; }
+        .up { border-left: 5px solid green; }
+        .down { border-left: 5px solid red; }
+    </style>
+</head>
+<body>
+    <h1>🌐 Website Status Monitor</h1>
+    <div id="sites"></div>
+
+    <script>
+        async function loadStatus() {
+            try {
+                const response = await fetch('/data/status.db');
+                const data = await response.text();
+                displaySites(data);
+            } catch (error) {
+                document.getElementById('sites').innerHTML = 'Error loading data';
+            }
+        }
+
+        function displaySites(logData) {
+            const lines = logData.split('\n').filter(line => line);
+            const sites = {};
+            
+            // Берем последнюю запись для каждого сайта
+            lines.forEach(line => {
+                const parts = line.split(' | ');
+                if (parts.length >= 3) {
+                    sites[parts[1]] = {
+                        lastCheck: parts[0],
+                        status: parts[2],
+                        responseTime: parts[3] || 'N/A'
+                    };
+                }
+            });
+            
+            const html = Object.entries(sites).map(([site, data]) => `
+                <div class="site ${data.status === 'UP' ? 'up' : 'down'}">
+                    <h3>${site}</h3>
+                    <div>Status: <strong>${data.status}</strong></div>
+                    <div>Response: ${data.responseTime}</div>
+                    <div>Last check: ${data.lastCheck}</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('sites').innerHTML = html;
+        }
+
+        // Обновляем каждые 30 секунд
+        loadStatus();
+        setInterval(loadStatus, 30000);
+    </script>
+</body>
+</html>

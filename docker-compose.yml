@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  web: # Веб-сервер
+    build: ./web
+    ports:
+      - "8000:80" # Обращение к 8080, приём 80
+    volumes:
+      - ./monitoring-data:/data
+    depends_on:
+      - monitor # Зависит от сервиса monitor
+    restart: unless-stopped
+
+  monitor: # Сервис мониторинга
+    build: ./monitor
+    volumes:
+      - ./monitoring-data:/data
+    restart: unless-stopped
