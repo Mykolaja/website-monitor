@@ -8,18 +8,18 @@ Docker-приложение для отслеживания доступност
 - Веб-интерфейс для просмотра результатов
 - Автообновление данных каждые 10 минут
 
- Установка
-```bash
+ Установка:
+
 git clone https://github.com/Mykolaja/website-monitor.git
 cd website-monitor
 docker-compose up --build
-```
+
 Открыть http://localhost:8000
 
  Технологии
 - Backend: Bash, curl, Alpine Linux
 - Frontend: HTML, JavaScript, Nginx
-- Infrastructure: Docker, Docker Compose, volumes
+- Структура: Docker, Docker Compose, volumes
 - Архитектура: Multi-container приложение
 
  Демонстрируемые навыки
@@ -29,4 +29,4 @@ docker-compose up --build
 - Оркестрация сервисов через Docker Compose
 - Создание систем мониторинга
 
-Проект показывает понимание полного цикла разработки от backend-скриптов до frontend-интерфейса в containerized среде.
+Проект показывает понимание цикла разработки от backend-скриптов до frontend-интерфейса в контейнезированной среде.
