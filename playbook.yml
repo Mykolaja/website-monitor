@@ -1,0 +1,31 @@
+- name: Deploy website monitoring application
+  hosts: vagrant_vm
+  become: yes
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - git
+          - docker.io
+        state: present
+        update_cache: yes
+
+    - name: Install modern docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64
+        dest: /usr/bin/docker-compose
+        mode: '0755'
+      notify: Clear docker-compose cache
+
+    - name: Clone repository from GitHub
+      git:
+        repo: https://github.com/Mykolaja/website-monitor.git
+        dest: /opt/website-monitor
+        clone: yes
+        update: yes
+
+    - name: Start application with Docker Compose
+      command: docker-compose up -d
+      args:
+        chdir: /opt/website-monitor
