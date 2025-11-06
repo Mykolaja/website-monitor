@@ -30,3 +30,27 @@ docker-compose up --build
 - Создание систем мониторинга
 
 Проект показывает понимание цикла разработки от backend-скриптов до frontend-интерфейса в контейнезированной среде.
+
+Ansible Playbook для развертывания Website Monitor
+
+Что демонстрирует:
+
+    Автоматизацию настройки сервера и развертывания приложения
+    Принцип Infrastructure as Code (IaC) - описание инфраструктуры в виде кода
+    Базовые навыки работы с Ansible
+
+Как использовать:
+
+    Создайте файл inventory. Например:
+
+[vagrant_vm]
+default ansible_host=127.0.0.1 ansible_port=2222 ansible_user=vagrant ansible_ssh_private_key_file=/path/to/private_key
+
+    Запустите плейбук:
+
+ansible-playbook -i inventory playbook.yaml
+
+Что делает плейбук:
+
+    Устанавливает Docker и зависимости
+    Скачивает и запускает приложение мониторинга из Docker-контейнеров
