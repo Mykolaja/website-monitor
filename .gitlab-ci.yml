@@ -1,0 +1,24 @@
+stages:
+ - lint
+ - build
+ - deploy
+
+lint_bash_job:
+ stage: lint
+
+ image: koalaman/shellcheck-alpine:latest
+
+ script:
+   - echo "Начинаем проверку скрипта мониторинга..."
+   - shellcheck ./monitor/monitor.sh
+
+
+lint_nginx_job:
+ stage: lint
+
+ image: nginx:1.29.1-alpine
+
+ script:
+   - echo "Проверяем синтаксис конфигурации веб-сервера..."
+
+   - nginx -t -c $(pwd)/web/nginx.conf
